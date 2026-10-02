@@ -1,0 +1,852 @@
+:root {
+  --bg: #ffffff;
+  --fg: #111111;
+  --muted: #6b6b6b;
+  --line: #d8d8d8;
+  --desk: #f3f3f3;
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0e0e0e;
+    --fg: #ededed;
+    --muted: #8f8f8f;
+    --line: #2e2e2e;
+    --desk: #161616;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font: 15px/1.6 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+p {
+  margin: 0;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+:focus-visible {
+  outline: 2px solid var(--fg);
+  outline-offset: 2px;
+}
+
+/* ---- Layout: the form, and the sheet beside it on wide screens ---- */
+
+.editor {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 64px 24px 96px;
+}
+
+.preview {
+  background: var(--desk);
+  border-top: 1px solid var(--line);
+  padding: 32px 24px;
+}
+
+@media (min-width: 1100px) {
+  .layout {
+    display: grid;
+    grid-template-columns: minmax(0, 640px) minmax(0, 1fr);
+  }
+
+  .editor {
+    margin: 0;
+    padding: 64px 32px 96px 48px;
+  }
+
+  .preview {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    border-top: none;
+    border-left: 1px solid var(--line);
+    padding: 32px;
+  }
+}
+
+/* ---- Editor ---- */
+
+.editor h1 {
+  font-size: 20px;
+  margin: 0;
+  letter-spacing: 0.02em;
+}
+
+.editor header p {
+  margin-top: 4px;
+}
+
+.editor h2 {
+  font-size: 13px;
+  margin: 0 0 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.editor section {
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+
+.note {
+  font-size: 12px;
+  margin-bottom: 12px;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+button:hover:not(:disabled) {
+  border-color: var(--fg);
+}
+
+button:disabled {
+  color: var(--muted);
+  cursor: not-allowed;
+}
+
+button[aria-pressed='true'] {
+  border-color: var(--fg);
+  background: var(--fg);
+  color: var(--bg);
+}
+
+button.ghost {
+  border-color: transparent;
+  color: var(--muted);
+}
+
+button.ghost:hover {
+  color: var(--fg);
+}
+
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 5px 8px;
+  min-width: 0;
+}
+
+textarea {
+  width: 100%;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+input[type='checkbox'],
+input[type='radio'] {
+  margin: 0;
+  accent-color: var(--fg);
+}
+
+fieldset {
+  border: none;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+
+legend {
+  padding: 0;
+}
+
+.docs {
+  margin-top: 32px;
+  display: flex;
+  gap: 8px;
+}
+
+.settings {
+  margin-top: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 32px;
+  align-items: flex-end;
+}
+
+.toolbar {
+  margin-top: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.toolbar button {
+  font-size: 13px;
+}
+
+.notice {
+  min-height: 1.6em;
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.field > span:first-child,
+.field > legend {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.field.wide {
+  grid-column: 1 / -1;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 16px;
+}
+
+.checks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  padding: 4px 0;
+}
+
+.checks label,
+.picks label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.range {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.month-input {
+  width: 10ch;
+  flex: none;
+}
+
+.photo-row {
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.rows {
+  list-style: none;
+  margin: 0 0 12px;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.rows li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.grow {
+  flex: 1 1 auto;
+}
+
+.years-field {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.years-field input {
+  width: 5ch;
+  text-align: right;
+}
+
+.row-controls {
+  display: inline-flex;
+  flex: none;
+}
+
+button.icon {
+  border: none;
+  padding: 4px 5px;
+  color: var(--muted);
+  line-height: 1;
+}
+
+button.icon:hover {
+  color: var(--fg);
+}
+
+details > summary {
+  cursor: pointer;
+  padding: 4px 0;
+}
+
+details.company {
+  border-top: 1px solid var(--line);
+  padding: 12px 0 16px;
+}
+
+details.company > summary {
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+details.project {
+  margin-top: 16px;
+  padding-left: 16px;
+  border-left: 1px solid var(--line);
+}
+
+details.project > summary {
+  margin-bottom: 12px;
+}
+
+details.company:last-of-type {
+  margin-bottom: 12px;
+}
+
+.actions {
+  margin-top: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.actions.end {
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+
+details.github {
+  margin-top: 24px;
+}
+
+details.github > summary {
+  margin-bottom: 8px;
+}
+
+.inline {
+  display: flex;
+  gap: 8px;
+}
+
+.picks {
+  margin-top: 16px;
+  display: grid;
+  gap: 16px;
+}
+
+.picks fieldset {
+  display: grid;
+  gap: 4px;
+}
+
+.picks legend {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+
+footer {
+  margin-top: 64px;
+  border-top: 1px solid var(--line);
+  padding-top: 16px;
+  color: var(--muted);
+  font-size: 12px;
+  display: grid;
+  gap: 8px;
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+footer a,
+.links button {
+  color: inherit;
+  font: inherit;
+  background: none;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+footer a:hover,
+.links button:hover {
+  color: var(--fg);
+}
+
+@media (max-width: 520px) {
+  .editor {
+    padding: 40px 16px 64px;
+  }
+
+  .preview {
+    padding: 16px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .rows li {
+    flex-wrap: wrap;
+  }
+
+  .skills select:first-child {
+    flex-basis: 100%;
+  }
+}
+
+/* ---- The sheet ----
+ * A printed document, not part of the interface: always black on white, in
+ * the system's Japanese gothic face, sized in millimetres. */
+
+.paper {
+  width: 210mm;
+  min-height: 297mm;
+  margin: 0 auto 24px;
+  padding: 12mm;
+  background: #ffffff;
+  color: #111111;
+  border: 1px solid var(--line);
+  font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'YuGothic', Meiryo, sans-serif;
+  font-size: 9.5pt;
+  line-height: 1.5;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.paper h1,
+.paper h2 {
+  margin: 0;
+  font-weight: 600;
+}
+
+.paper table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.paper th,
+.paper td {
+  border: 1px solid #111111;
+  padding: 1mm 2mm;
+  text-align: left;
+  vertical-align: top;
+  font-weight: normal;
+}
+
+.paper .break {
+  word-break: break-all;
+}
+
+.paper .text {
+  white-space: pre-wrap;
+}
+
+/* 履歴書 */
+
+.rirekisho .head {
+  display: flex;
+  gap: 5mm;
+  align-items: flex-end;
+}
+
+.rirekisho .identity {
+  flex: 1;
+  min-width: 0;
+}
+
+.rirekisho .title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 2mm;
+}
+
+.rirekisho h1 {
+  font-size: 18pt;
+  letter-spacing: 0.3em;
+}
+
+.rirekisho .person th,
+.rirekisho .address th {
+  width: 18mm;
+  font-size: 8pt;
+  vertical-align: middle;
+}
+
+.rirekisho .person th.narrow {
+  width: 10mm;
+  text-align: center;
+}
+
+.rirekisho .person .gender {
+  width: 14mm;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.rirekisho .kana td {
+  font-size: 8pt;
+  height: 6mm;
+}
+
+.rirekisho .person .name td {
+  font-size: 18pt;
+  height: 16mm;
+  vertical-align: middle;
+}
+
+.rirekisho .person tr:last-child td {
+  height: 9mm;
+  vertical-align: middle;
+}
+
+.rirekisho .photo {
+  width: 30mm;
+  height: 40mm;
+  flex: none;
+  border: 1px dashed #111111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 7pt;
+  line-height: 1.6;
+  color: #555555;
+  overflow: hidden;
+}
+
+.rirekisho .photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.rirekisho .address {
+  margin-top: 4mm;
+}
+
+.rirekisho .address col.label {
+  width: 18mm;
+}
+
+.rirekisho .address col.contact {
+  width: 62mm;
+}
+
+.rirekisho .address .tall td {
+  height: 17mm;
+}
+
+.rirekisho .address .small {
+  font-size: 8.5pt;
+}
+
+.rirekisho .address .label {
+  font-size: 7.5pt;
+  color: #555555;
+}
+
+.rirekisho .dated {
+  margin-top: 4mm;
+}
+
+.rirekisho .dated:first-child {
+  margin-top: 0;
+}
+
+.rirekisho .dated col.year {
+  width: 18mm;
+}
+
+.rirekisho .dated col.month {
+  width: 10mm;
+}
+
+.rirekisho .dated th {
+  text-align: center;
+  font-size: 8.5pt;
+}
+
+.rirekisho .dated td {
+  height: 8mm;
+  vertical-align: middle;
+}
+
+.rirekisho .dated .num {
+  text-align: center;
+}
+
+.rirekisho .dated .center {
+  text-align: center;
+}
+
+.rirekisho .dated .end {
+  text-align: right;
+}
+
+.rirekisho .box {
+  margin-top: 4mm;
+  border: 1px solid #111111;
+}
+
+.rirekisho .box h2 {
+  font-size: 8pt;
+  font-weight: normal;
+  padding: 1mm 2mm;
+}
+
+.rirekisho .box p {
+  white-space: pre-wrap;
+  padding: 0 2mm 2mm;
+}
+
+.rirekisho .motivation {
+  min-height: 80mm;
+}
+
+.rirekisho .request {
+  min-height: 36mm;
+}
+
+/* 職務経歴書 */
+
+.shokumu h1 {
+  font-size: 16pt;
+  letter-spacing: 0.2em;
+  text-align: center;
+}
+
+.shokumu .meta {
+  margin-top: 4mm;
+  text-align: right;
+}
+
+.shokumu section {
+  margin-top: 6mm;
+}
+
+.shokumu h2 {
+  font-size: 11pt;
+  padding-bottom: 1mm;
+  border-bottom: 1.5px solid #111111;
+  margin-bottom: 2mm;
+}
+
+.shokumu .company {
+  margin-bottom: 5mm;
+}
+
+.shokumu .company-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 4mm;
+  border-bottom: 1px solid #111111;
+  padding-bottom: 0.5mm;
+  break-after: avoid;
+}
+
+.shokumu .company-name {
+  font-weight: 600;
+}
+
+.shokumu .company-meta {
+  margin-top: 1mm;
+  font-size: 8.5pt;
+}
+
+/* Fixed layout, so the <col> widths hold and the content column gets the rest. */
+.shokumu .projects,
+.shokumu .skills {
+  table-layout: fixed;
+}
+
+.shokumu .projects {
+  margin-top: 2mm;
+  font-size: 8.5pt;
+}
+
+.shokumu .projects td {
+  overflow-wrap: anywhere;
+}
+
+.shokumu .projects th {
+  text-align: center;
+  font-size: 8pt;
+}
+
+.shokumu .projects col.period {
+  width: 24mm;
+}
+
+.shokumu .projects col.env {
+  width: 40mm;
+}
+
+.shokumu .projects col.role {
+  width: 30mm;
+}
+
+.shokumu .projects tr {
+  break-inside: avoid;
+}
+
+.shokumu .project-title {
+  font-weight: 600;
+  margin-bottom: 1mm;
+}
+
+.shokumu .projects .text + .label {
+  margin-top: 1.5mm;
+}
+
+.shokumu .label {
+  font-size: 7.5pt;
+  color: #555555;
+}
+
+.shokumu .env p + p,
+.shokumu .role p + p {
+  margin-top: 1mm;
+}
+
+.shokumu .phases span {
+  display: block;
+}
+
+.shokumu .skills {
+  font-size: 9pt;
+}
+
+.shokumu .skills col.category {
+  width: 34mm;
+}
+
+.shokumu .skills col.years {
+  width: 20mm;
+}
+
+.shokumu .skills col.level {
+  width: 52mm;
+}
+
+.shokumu .skills th {
+  font-size: 8pt;
+  text-align: center;
+}
+
+.shokumu .skills .num {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.shokumu .skills tr {
+  break-inside: avoid;
+}
+
+.shokumu .dots {
+  letter-spacing: 0.05em;
+}
+
+.shokumu .plain td {
+  border: none;
+  padding: 0.5mm 0;
+}
+
+.shokumu .plain .when {
+  width: 34mm;
+}
+
+.shokumu .end {
+  margin-top: 6mm;
+  text-align: right;
+}
+
+/* ---- Print: only the sheet, at its real size ---- */
+
+@page {
+  size: A4;
+  margin: 12mm;
+}
+
+@media print {
+  body {
+    background: #ffffff;
+  }
+
+  .editor {
+    display: none;
+  }
+
+  .layout {
+    display: block;
+  }
+
+  .preview {
+    position: static;
+    height: auto;
+    overflow: visible;
+    padding: 0;
+    border: none;
+    background: none;
+  }
+
+  .sheets {
+    zoom: 1 !important;
+  }
+
+  .paper {
+    width: auto;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+    border: none;
+  }
+
+  .rirekisho + .rirekisho {
+    break-before: page;
+  }
+}

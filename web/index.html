@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>skill-sheet - エンジニア向け履歴書・職務経歴書</title>
+    <meta
+      name="description"
+      content="エンジニア向けの履歴書と職務経歴書・スキルシートをブラウザだけで作成。A4 プレビュー、PDF 保存、JSON・Markdown 書き出し、GitHub からの下書きに対応。アカウント不要。"
+    />
+    <link rel="icon" href="data:," />
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6MG7JM7PTP"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      // The app sends page_view itself, so the snippet must not send its own.
+      gtag('config', 'G-6MG7JM7PTP', { send_page_view: false });
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

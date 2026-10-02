@@ -1,0 +1,40 @@
+{
+  "name": "skill-sheet",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Build a Japanese resume and engineer skill sheet.",
+  "license": "MIT",
+  "author": "SENA",
+  "homepage": "https://sena10x.github.io/skill-sheet/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SENA10X/skill-sheet.git"
+  },
+  "bugs": {
+    "url": "https://github.com/SENA10X/skill-sheet/issues"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.13.0",
+    "@types/node": "^22.7.0",
+    "@types/react": "^18.3.11",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.2",
+    "eslint": "^9.13.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "typescript": "^5.6.3",
+    "typescript-eslint": "^8.10.0",
+    "vite": "^5.4.9",
+    "vitest": "^2.1.3"
+  }
+}
